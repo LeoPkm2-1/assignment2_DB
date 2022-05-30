@@ -1,379 +1,312 @@
 
-
---
--- Database: `assignment2`
---
+-- database: assignment2
+drop database if exists assignment2;
 create database assignment2;
 use assignment2;
 
 
---table `branch`
+--table branch
 
 
-CREATE TABLE `branch` (
-  `branch_id` int(6) UNSIGNED NOT NULL,
-  `branch_name` varchar(250) DEFAULT NULL,
-  `brach_location` varchar(250) DEFAULT NULL
+create table branch (
+  branch_id int(6) unsigned not null,
+  branch_name varchar(250) default null,
+  brach_location varchar(250) default null,
+  primary key (branch_id)
+);
+
+--table category
+
+create table category (
+  category_id int(6) unsigned not null,
+  category_name varchar(250) not null,
+  primary key (category_id)
+);
+
+--table customer
+
+create table customer (
+  cus_id int(6) unsigned not null,
+  cus_fullname varchar(250) not null,
+  cus_address varchar(250) default null,
+  cus_phone varchar(250) not null,
+  cus_email varchar(50) default null,
+  cus_password varchar(250) not null,
+  primary key (cus_id)
 );
 
 
 
---table `category`
+--table employee
 
-
-CREATE TABLE `category` (
-  `category_id` int(6) UNSIGNED NOT NULL,
-  `category_name` varchar(250) NOT NULL
+create table employee (
+  emp_id int(6) unsigned not null,
+  emp_fullname varchar(250) not null,
+  emp_address varchar(250) default null,
+  emp_phone varchar(250) not null,
+  emp_email varchar(50) default null,
+  emp_birthday year(4) not null,
+  emp_salary_per_hour decimal(10,3) default null,
+  emp_password varchar(250) not null,
+  emp_role_id int(6) unsigned not null,
+  emp_branch_id int(6) unsigned not null,
+  emp_shift_id int(6) unsigned not null
 );
 
+--table giftcode
 
-
---table `customer`
-
-
-CREATE TABLE `customer` (
-  `cus_id` int(6) UNSIGNED NOT NULL,
-  `cus_fullname` varchar(250) NOT NULL,
-  `cus_address` varchar(250) DEFAULT NULL,
-  `cus_phone` varchar(250) NOT NULL,
-  `cus_email` varchar(50) DEFAULT NULL,
-  `cus_password` varchar(250) NOT NULL
+create table giftcode (
+  gift_code int(6) unsigned not null,
+  gift_startdate time not null,
+  gift_expiredate time not null,
+  gift_value decimal(10,3) not null,
+  primary key (gift_code)
 );
 
+--table managerbranch
 
-
---table `employee`
-
-
-CREATE TABLE `employee` (
-  `emp_id` int(6) UNSIGNED NOT NULL,
-  `emp_fullname` varchar(250) NOT NULL,
-  `emp_address` varchar(250) DEFAULT NULL,
-  `emp_phone` varchar(250) NOT NULL,
-  `emp_email` varchar(50) DEFAULT NULL,
-  `emp_birthday` year(4) NOT NULL,
-  `emp_salary_per_hour` decimal(10,3) DEFAULT NULL,
-  `emp_password` varchar(250) NOT NULL,
-  `emp_role_id` int(6) UNSIGNED NOT NULL,
-  `emp_branch_id` int(6) UNSIGNED NOT NULL,
-  `emp_shift_id` int(6) UNSIGNED NOT NULL
+create table managerbranch (
+  emp_id int(6) unsigned not null,
+  branch_id int(6) unsigned not null,
+  startdate date default null
 );
 
+--table order_
 
-
---table `giftcode`
-
-
-CREATE TABLE `giftcode` (
-  `gift_code` int(6) UNSIGNED NOT NULL,
-  `gift_startdate` time NOT NULL,
-  `gift_expiredate` time NOT NULL,
-  `gift_value` decimal(10,3) NOT NULL
+create table order_ (
+  order_id int(6) unsigned not null,
+  order_date time not null,
+  order_address varchar(250) not null,
+  order_total_money decimal(10,3) not null default 0.000,
+  order_status varchar(50) not null default 'processing',
+  order_emp_id int(6) unsigned default null,
+  order_customer_id int(6) unsigned default null,
+  order_code int(6) unsigned default null
 );
 
+--table product
 
-
---table `managerbranch`
-
-
-CREATE TABLE `managerbranch` (
-  `emp_id` int(6) UNSIGNED NOT NULL,
-  `branch_id` int(6) UNSIGNED NOT NULL,
-  `startdate` date DEFAULT NULL
+create table product (
+  product_id int(6) unsigned not null,
+  product_name varchar(250) not null,
+  product_listed_price decimal(10,3) not null,
+  product_image text not null,
+  product_number int(11) not null default 0,
+  product_start_avg decimal(3,3) not null default 0.000,
+  product_category_id int(6) unsigned not null
 );
 
+--table productorder
 
-
---table `order_`
-
-
-CREATE TABLE `order_` (
-  `order_id` int(6) UNSIGNED NOT NULL,
-  `order_date` time NOT NULL,
-  `order_address` varchar(250) NOT NULL,
-  `order_total_money` decimal(10,3) NOT NULL DEFAULT 0.000,
-  `order_status` varchar(50) NOT NULL DEFAULT 'processing',
-  `order_emp_id` int(6) UNSIGNED DEFAULT NULL,
-  `order_customer_id` int(6) UNSIGNED DEFAULT NULL,
-  `order_code` int(6) UNSIGNED DEFAULT NULL
+create table productorder (
+  order_id int(6) unsigned not null,
+  product_id int(6) unsigned not null,
+  quantity int(10) not null default 1,
+  price decimal(10,3) not null default 0.000
 );
 
+--table rating
 
-
---table `product`
-
-
-CREATE TABLE `product` (
-  `product_id` int(6) UNSIGNED NOT NULL,
-  `product_name` varchar(250) NOT NULL,
-  `product_listed_price` decimal(10,3) NOT NULL,
-  `product_image` text NOT NULL,
-  `product_number` int(11) NOT NULL DEFAULT 0,
-  `product_start_avg` decimal(3,3) NOT NULL DEFAULT 0.000,
-  `product_category_id` int(6) UNSIGNED NOT NULL
+create table rating (
+  customer_id int(6) unsigned not null,
+  product_id int(6) unsigned not null,
+  star decimal(3,3) not null default 0.000
 );
 
+--table role
 
-
---table `productorder`
-
-
-CREATE TABLE `productorder` (
-  `order_id` int(6) UNSIGNED NOT NULL,
-  `product_id` int(6) UNSIGNED NOT NULL,
-  `quantity` int(10) NOT NULL DEFAULT 1,
-  `price` decimal(10,3) NOT NULL DEFAULT 0.000
+create table `role` (
+  role_id int(6) unsigned not null,
+  role_name varchar(250) not null default 'sale',
+  primary key (role_id)
 );
 
+--table shift
 
-
---table `rating`
-
-
-CREATE TABLE `rating` (
-  `customer_id` int(6) UNSIGNED NOT NULL,
-  `product_id` int(6) UNSIGNED NOT NULL,
-  `star` decimal(3,3) NOT NULL DEFAULT 0.000
+create table shift (
+  shift_id int(6) unsigned not null,
+  shift_time varchar(250) not null,
+  primary key (shift_id)
 );
 
+--table workhours
 
-
---table `role`
-
-
-CREATE TABLE `role` (
-  `role_id` int(6) UNSIGNED NOT NULL,
-  `role_name` varchar(250) NOT NULL DEFAULT 'Sale'
-);
-
-
-
---table `shift`
-
-
-CREATE TABLE `shift` (
-  `shift_id` int(6) UNSIGNED NOT NULL,
-  `shift_time` varchar(250) NOT NULL
-);
-
-
-
---table `workhours`
-
-
-CREATE TABLE `workhours` (
-  `work_emp_id` int(6) UNSIGNED NOT NULL,
-  `work_month` int(5) NOT NULL,
-  `work_hours` decimal(10,3) NOT NULL DEFAULT 0.000
+create table workhours (
+  work_emp_id int(6) unsigned not null,
+  work_month int(5) not null,
+  work_hours decimal(10,3) not null default 0.000,
+  primary key (work_emp_id,work_month)
 );
 
 --
--- Indexes for dumped tables
+-- indexes for dumped tables
+--
+
+
+--
+-- indexes for table employee
+--
+alter table employee
+  add primary key (emp_id),
+  add key emp_role_id (emp_role_id),
+  add key emp_branch_id (emp_branch_id),
+  add key emp_shift_id (emp_shift_id);
+
+
+
+--
+-- indexes for table managerbranch
+--
+alter table managerbranch
+  add primary key (emp_id,branch_id),
+  add key branch_id (branch_id);
+
+--
+-- indexes for table order_
+--
+alter table order_
+  add primary key (order_id),
+  add key order_code (order_code),
+  add key order_emp_id (order_emp_id),
+  add key order_customer_id (order_customer_id);
+
+--
+-- indexes for table product
+--
+alter table product
+  add primary key (product_id),
+  add key product_category_id (product_category_id);
+
+--
+-- indexes for table productorder
+--
+alter table productorder
+  add primary key (order_id,product_id),
+  add key product_id (product_id);
+
+--
+-- indexes for table rating
+--
+alter table rating
+  add primary key (customer_id,product_id),
+  add key product_id (product_id);
+
+
+--
+-- auto_increment for dumped tables
 --
 
 --
--- Indexes for table `branch`
+-- auto_increment for table branch
 --
-ALTER TABLE `branch`
-  ADD PRIMARY KEY (`branch_id`);
+alter table branch
+  modify branch_id int(6) unsigned not null auto_increment;
 
 --
--- Indexes for table `category`
+-- auto_increment for table category
 --
-ALTER TABLE `category`
-  ADD PRIMARY KEY (`category_id`);
+alter table category
+  modify category_id int(6) unsigned not null auto_increment;
 
 --
--- Indexes for table `customer`
+-- auto_increment for table customer
 --
-ALTER TABLE `customer`
-  ADD PRIMARY KEY (`cus_id`);
+alter table customer
+  modify cus_id int(6) unsigned not null auto_increment;
 
 --
--- Indexes for table `employee`
+-- auto_increment for table employee
 --
-ALTER TABLE `employee`
-  ADD PRIMARY KEY (`emp_id`),
-  ADD KEY `emp_role_id` (`emp_role_id`),
-  ADD KEY `emp_branch_id` (`emp_branch_id`),
-  ADD KEY `emp_shift_id` (`emp_shift_id`);
+alter table employee
+  modify emp_id int(6) unsigned not null auto_increment;
 
 --
--- Indexes for table `giftcode`
+-- auto_increment for table giftcode
 --
-ALTER TABLE `giftcode`
-  ADD PRIMARY KEY (`gift_code`);
+alter table giftcode
+  modify gift_code int(6) unsigned not null auto_increment;
 
 --
--- Indexes for table `managerbranch`
+-- auto_increment for table order_
 --
-ALTER TABLE `managerbranch`
-  ADD PRIMARY KEY (`emp_id`,`branch_id`),
-  ADD KEY `branch_id` (`branch_id`);
+alter table order_
+  modify order_id int(6) unsigned not null auto_increment;
 
 --
--- Indexes for table `order_`
+-- auto_increment for table product
 --
-ALTER TABLE `order_`
-  ADD PRIMARY KEY (`order_id`),
-  ADD KEY `order_code` (`order_code`),
-  ADD KEY `order_emp_id` (`order_emp_id`),
-  ADD KEY `order_customer_id` (`order_customer_id`);
+alter table product
+  modify product_id int(6) unsigned not null auto_increment, auto_increment=2;
 
 --
--- Indexes for table `product`
+-- auto_increment for table role
 --
-ALTER TABLE `product`
-  ADD PRIMARY KEY (`product_id`),
-  ADD KEY `product_category_id` (`product_category_id`);
+alter table role
+  modify role_id int(6) unsigned not null auto_increment;
 
 --
--- Indexes for table `productorder`
+-- auto_increment for table shift
 --
-ALTER TABLE `productorder`
-  ADD PRIMARY KEY (`order_id`,`product_id`),
-  ADD KEY `product_id` (`product_id`);
+alter table shift
+  modify shift_id int(6) unsigned not null auto_increment;
 
 --
--- Indexes for table `rating`
+-- auto_increment for table workhours
 --
-ALTER TABLE `rating`
-  ADD PRIMARY KEY (`customer_id`,`product_id`),
-  ADD KEY `product_id` (`product_id`);
+alter table workhours
+  modify work_emp_id int(6) unsigned not null auto_increment;
 
 --
--- Indexes for table `role`
---
-ALTER TABLE `role`
-  ADD PRIMARY KEY (`role_id`);
-
---
--- Indexes for table `shift`
---
-ALTER TABLE `shift`
-  ADD PRIMARY KEY (`shift_id`);
-
---
--- Indexes for table `workhours`
---
-ALTER TABLE `workhours`
-  ADD PRIMARY KEY (`work_emp_id`,`work_month`);
-
---
--- AUTO_INCREMENT for dumped tables
+-- constraints for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `branch`
+-- constraints for table employee
 --
-ALTER TABLE `branch`
-  MODIFY `branch_id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT;
+alter table employee
+  add constraint employee_ibfk_1 foreign key (emp_role_id) references role (role_id),
+  add constraint employee_ibfk_2 foreign key (emp_branch_id) references branch (branch_id),
+  add constraint employee_ibfk_3 foreign key (emp_shift_id) references shift (shift_id);
 
 --
--- AUTO_INCREMENT for table `category`
+-- constraints for table managerbranch
 --
-ALTER TABLE `category`
-  MODIFY `category_id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT;
+alter table managerbranch
+  add constraint managerbranch_ibfk_1 foreign key (emp_id) references employee (emp_id),
+  add constraint managerbranch_ibfk_2 foreign key (branch_id) references branch (branch_id);
 
 --
--- AUTO_INCREMENT for table `customer`
+-- constraints for table order_
 --
-ALTER TABLE `customer`
-  MODIFY `cus_id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT;
+alter table order_
+  add constraint order__ibfk_1 foreign key (order_code) references giftcode (gift_code),
+  add constraint order__ibfk_2 foreign key (order_emp_id) references employee (emp_id),
+  add constraint order__ibfk_3 foreign key (order_customer_id) references customer (cus_id);
 
 --
--- AUTO_INCREMENT for table `employee`
+-- constraints for table product
 --
-ALTER TABLE `employee`
-  MODIFY `emp_id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT;
+alter table product
+  add constraint product_ibfk_1 foreign key (product_category_id) references category (category_id),
+  add constraint product_ibfk_2 foreign key (product_category_id) references category (category_id);
 
 --
--- AUTO_INCREMENT for table `giftcode`
+-- constraints for table productorder
 --
-ALTER TABLE `giftcode`
-  MODIFY `gift_code` int(6) UNSIGNED NOT NULL AUTO_INCREMENT;
+alter table productorder
+  add constraint productorder_ibfk_1 foreign key (order_id) references order_ (order_id),
+  add constraint productorder_ibfk_2 foreign key (product_id) references product (product_id),
+  add constraint productorder_ibfk_3 foreign key (order_id) references order_ (order_id);
 
 --
--- AUTO_INCREMENT for table `order_`
+-- constraints for table rating
 --
-ALTER TABLE `order_`
-  MODIFY `order_id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT;
+alter table rating
+  add constraint rating_ibfk_1 foreign key (customer_id) references customer (cus_id),
+  add constraint rating_ibfk_2 foreign key (product_id) references product (product_id);
 
 --
--- AUTO_INCREMENT for table `product`
+-- constraints for table workhours
 --
-ALTER TABLE `product`
-  MODIFY `product_id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `role`
---
-ALTER TABLE `role`
-  MODIFY `role_id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `shift`
---
-ALTER TABLE `shift`
-  MODIFY `shift_id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `workhours`
---
-ALTER TABLE `workhours`
-  MODIFY `work_emp_id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `employee`
---
-ALTER TABLE `employee`
-  ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`emp_role_id`) REFERENCES `role` (`role_id`),
-  ADD CONSTRAINT `employee_ibfk_2` FOREIGN KEY (`emp_branch_id`) REFERENCES `branch` (`branch_id`),
-  ADD CONSTRAINT `employee_ibfk_3` FOREIGN KEY (`emp_shift_id`) REFERENCES `shift` (`shift_id`);
-
---
--- Constraints for table `managerbranch`
---
-ALTER TABLE `managerbranch`
-  ADD CONSTRAINT `managerbranch_ibfk_1` FOREIGN KEY (`emp_id`) REFERENCES `employee` (`emp_id`),
-  ADD CONSTRAINT `managerbranch_ibfk_2` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`);
-
---
--- Constraints for table `order_`
---
-ALTER TABLE `order_`
-  ADD CONSTRAINT `order__ibfk_1` FOREIGN KEY (`order_code`) REFERENCES `giftcode` (`gift_code`),
-  ADD CONSTRAINT `order__ibfk_2` FOREIGN KEY (`order_emp_id`) REFERENCES `employee` (`emp_id`),
-  ADD CONSTRAINT `order__ibfk_3` FOREIGN KEY (`order_customer_id`) REFERENCES `customer` (`cus_id`);
-
---
--- Constraints for table `product`
---
-ALTER TABLE `product`
-  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`product_category_id`) REFERENCES `category` (`category_id`),
-  ADD CONSTRAINT `product_ibfk_2` FOREIGN KEY (`product_category_id`) REFERENCES `category` (`category_id`);
-
---
--- Constraints for table `productorder`
---
-ALTER TABLE `productorder`
-  ADD CONSTRAINT `productorder_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `order_` (`order_id`),
-  ADD CONSTRAINT `productorder_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`),
-  ADD CONSTRAINT `productorder_ibfk_3` FOREIGN KEY (`order_id`) REFERENCES `order_` (`order_id`);
-
---
--- Constraints for table `rating`
---
-ALTER TABLE `rating`
-  ADD CONSTRAINT `rating_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`cus_id`),
-  ADD CONSTRAINT `rating_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
-
---
--- Constraints for table `workhours`
---
-ALTER TABLE `workhours`
-  ADD CONSTRAINT `workhours_ibfk_1` FOREIGN KEY (`work_emp_id`) REFERENCES `employee` (`emp_id`);
+alter table workhours
+  add constraint workhours_ibfk_1 foreign key (work_emp_id) references employee (emp_id);
