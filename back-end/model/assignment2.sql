@@ -92,7 +92,7 @@ create table product (
   product_listed_price decimal(10,3) not null,
   product_image text not null,
   product_number int(11) not null default 0,
-  product_start_avg decimal(3,3) not null default 0.000,
+  product_start_avg decimal(5,3) not null default 0.000,
   product_category_id int(6) unsigned not null,
   primary key (product_id)
 );
@@ -139,7 +139,7 @@ create table workhours (
   primary key (work_emp_id,work_month)
 );
 
-
+-- employee foreign key-- 
 alter table employee
   add constraint fk_employee_emp_role_id
   foreign key (emp_role_id) references `role` (role_id);
@@ -152,7 +152,7 @@ alter table employee
   add constraint fk_employee_emp_shift_id
   foreign key (emp_shift_id) references shift (shift_id);
 
-
+-- managerbranch foreign key
 alter table managerbranch
   add constraint fk_managerbranch_branch_id
   foreign key (branch_id) references branch (branch_id);
@@ -165,7 +165,7 @@ alter table managerbranch
   add primary key (emp_id,branch_id);
 
 
-
+-- order_ foreign key
 alter table order_
   add constraint fk_order__order_code
   foreign key (order_code) references giftcode (gift_code);
@@ -179,13 +179,13 @@ alter table order_
   foreign key (order_customer_id) references customer(cus_id);
 
 
-
+-- product foreign key
 alter table product
   add constraint fk_product_product_category_id
   foreign key (product_category_id) references category(category_id);
 
 
-
+-- productorder foreign key
 alter table productorder
   add constraint fk_productorder_product_id
   foreign key (product_id) references product(product_id);
@@ -198,7 +198,7 @@ alter table productorder
   add primary key (order_id,product_id);
 
 
-
+-- rating foreign key
 alter table rating
   add constraint fk_rating_customer_id
   foreign key (customer_id) references customer(cus_id);
@@ -210,7 +210,50 @@ alter table rating
 alter table rating
   add primary key (customer_id,product_id);
 
-
+-- workhours foreign key
 alter table workhours
   add constraint fk_workhours_work_emp_id
   foreign key (work_emp_id) references employee(emp_id);
+
+
+
+-- insert data
+INSERT INTO branch (branch_name, brach_location)
+VALUES ('NYC', '111 Centre St, New York, NY 10013, United States'),
+('London','Exhibition Rd, South Kensington, London SW7 2BX, United Kingdom'),
+('Paris','24 Rue du Commandant Guilbaud, 75016 Paris, France'),
+('Madrid','de Concha Espina, 1, 28036 Madrid, Spain');
+
+
+INSERT INTO category (category_name)
+VALUES ('Cake'),
+('Tea'),
+('Milk'),
+('Cafe'),
+('Ice cream');
+
+INSERT INTO `role` (role_name)
+VALUES ('barista'),
+('Waiter'),
+('cashier');
+
+INSERT INTO customer (cus_fullname,cus_address,cus_phone,cus_email,cus_password)
+VALUES ('Will Smith','111 Centre St, New York','0147852369','WillSmith@gmail.com','null'),
+('Tom Hanks','111 Centre St, New York','0124552369','TomHanksh@gmail.com','null'),
+('Brad Pitt','111 Centre St, New York','0965852369','BradPitt@gmail.com','null');
+
+INSERT INTO shift (shift_time)
+VALUES ('06:00-14:00'),
+('14:00-22:00');
+
+INSERT INTO employee (emp_fullname, emp_address, emp_phone, emp_email, emp_birthday, emp_salary_per_hour, emp_password, emp_role_id, emp_branch_id, emp_shift_id)
+VALUES ('Will Smith','Sir Matt Busby Way, Old Trafford, Stretford, Manchester','0147851234','WillSmith@gmail.com',1994,13.77,'null',1,2,1),
+ ('Tom Hanks','111 Centre St, New York','0147851234','TomHanksh@gmail.com',1990,14.77,'null',2,1,1),
+ ('Brad Pitt','Sir Matt Busby Way, Old Trafford, Stretford, Manchester','0965851234','BradPitt@gmail.com',1998,12.77,'null',1,2,2);
+
+INSERT INTO product (product_name, product_listed_price, product_number, product_start_avg, product_category_id,product_image)
+VALUES ('Bacon, Sausage & Egg Wrap',12.5,150,2,1,'https://www.fastfoodpost.com/wp-content/uploads/2020/03/Starbucks-New-Southwest-Veggie-Wrap-And-New-Bacon-Sausage-Egg.jpg'),
+('Bacon, Gouda & Egg Sandwich',13.8,200,4,1,'https://i.dayj.com/image/720/food/1898448/starbucks-bacon-gouda-and-egg-sandwich-1-piece.png'),
+('Cold Brew Coffee', 8.2, 1000, 3, 4,'https://www.thespruceeats.com/thmb/gcBhhLtXnEd8JdM4zQDRSenkshI=/1885x1414/smart/filters:no_upscale()/coldbrewcoffeemicrogen-95e6ef2fc2c1411bbcf1cefe5e9e6879.jpg'),
+('Chocolate Cream Cold Brew', 10.2, 5000, 4, 4,'https://www.simplejoy.com/wp-content/uploads/2022/03/how-to-make-irish-cream-cold-brew-3-683x1024.jpg'),
+('Matcha Tea Latte', 9.8, 3000, 4, 2,'https://ostomyconnection.com/.image/ar_16:9%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cg_faces:center%2Cq_auto:good%2Cw_768/MTU1MzE4ODYyMDYwMDA0NTQw/green-macha-tea.jpg');
