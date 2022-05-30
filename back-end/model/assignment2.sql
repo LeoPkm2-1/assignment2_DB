@@ -1,55 +1,35 @@
--- phpMyAdmin SQL Dump
--- version 5.2.0
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: May 30, 2022 at 11:53 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `assignment2`
 --
 create database assignment2;
 use assignment2;
--- --------------------------------------------------------
 
---
--- Table structure for table `branch`
---
+
+--table `branch`
+
 
 CREATE TABLE `branch` (
   `branch_id` int(6) UNSIGNED NOT NULL,
   `branch_name` varchar(250) DEFAULT NULL,
   `brach_location` varchar(250) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `category`
---
+
+--table `category`
+
 
 CREATE TABLE `category` (
   `category_id` int(6) UNSIGNED NOT NULL,
   `category_name` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `customer`
---
+
+--table `customer`
+
 
 CREATE TABLE `customer` (
   `cus_id` int(6) UNSIGNED NOT NULL,
@@ -58,13 +38,12 @@ CREATE TABLE `customer` (
   `cus_phone` varchar(250) NOT NULL,
   `cus_email` varchar(50) DEFAULT NULL,
   `cus_password` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `employee`
---
+
+--table `employee`
+
 
 CREATE TABLE `employee` (
   `emp_id` int(6) UNSIGNED NOT NULL,
@@ -78,38 +57,35 @@ CREATE TABLE `employee` (
   `emp_role_id` int(6) UNSIGNED NOT NULL,
   `emp_branch_id` int(6) UNSIGNED NOT NULL,
   `emp_shift_id` int(6) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `giftcode`
---
+
+--table `giftcode`
+
 
 CREATE TABLE `giftcode` (
   `gift_code` int(6) UNSIGNED NOT NULL,
   `gift_startdate` time NOT NULL,
   `gift_expiredate` time NOT NULL,
   `gift_value` decimal(10,3) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `managerbranch`
---
+
+--table `managerbranch`
+
 
 CREATE TABLE `managerbranch` (
   `emp_id` int(6) UNSIGNED NOT NULL,
   `branch_id` int(6) UNSIGNED NOT NULL,
   `startdate` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `order_`
---
+
+--table `order_`
+
 
 CREATE TABLE `order_` (
   `order_id` int(6) UNSIGNED NOT NULL,
@@ -120,13 +96,12 @@ CREATE TABLE `order_` (
   `order_emp_id` int(6) UNSIGNED DEFAULT NULL,
   `order_customer_id` int(6) UNSIGNED DEFAULT NULL,
   `order_code` int(6) UNSIGNED DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `product`
---
+
+--table `product`
+
 
 CREATE TABLE `product` (
   `product_id` int(6) UNSIGNED NOT NULL,
@@ -136,66 +111,61 @@ CREATE TABLE `product` (
   `product_number` int(11) NOT NULL DEFAULT 0,
   `product_start_avg` decimal(3,3) NOT NULL DEFAULT 0.000,
   `product_category_id` int(6) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `productorder`
---
+
+--table `productorder`
+
 
 CREATE TABLE `productorder` (
   `order_id` int(6) UNSIGNED NOT NULL,
   `product_id` int(6) UNSIGNED NOT NULL,
   `quantity` int(10) NOT NULL DEFAULT 1,
   `price` decimal(10,3) NOT NULL DEFAULT 0.000
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `rating`
---
+
+--table `rating`
+
 
 CREATE TABLE `rating` (
   `customer_id` int(6) UNSIGNED NOT NULL,
   `product_id` int(6) UNSIGNED NOT NULL,
   `star` decimal(3,3) NOT NULL DEFAULT 0.000
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `role`
---
+
+--table `role`
+
 
 CREATE TABLE `role` (
   `role_id` int(6) UNSIGNED NOT NULL,
   `role_name` varchar(250) NOT NULL DEFAULT 'Sale'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `shift`
---
+
+--table `shift`
+
 
 CREATE TABLE `shift` (
   `shift_id` int(6) UNSIGNED NOT NULL,
   `shift_time` varchar(250) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
--- --------------------------------------------------------
 
---
--- Table structure for table `workhours`
---
+
+--table `workhours`
+
 
 CREATE TABLE `workhours` (
   `work_emp_id` int(6) UNSIGNED NOT NULL,
   `work_month` int(5) NOT NULL,
   `work_hours` decimal(10,3) NOT NULL DEFAULT 0.000
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+);
 
 --
 -- Indexes for dumped tables
@@ -407,8 +377,3 @@ ALTER TABLE `rating`
 --
 ALTER TABLE `workhours`
   ADD CONSTRAINT `workhours_ibfk_1` FOREIGN KEY (`work_emp_id`) REFERENCES `employee` (`emp_id`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
