@@ -55,11 +55,12 @@ create table employee (
 -- table giftcode
 drop table if exists giftcode;
 create table giftcode (
-  gift_code int(6) unsigned not null auto_increment,
-  gift_startdate time not null,
-  gift_expiredate time not null,
+  gift_code_id int(6) unsigned not null auto_increment,
+  gift_code varchar(20) not null UNIQUE,
+  gift_startdate datetime not null,
+  gift_expiredate datetime not null,
   gift_value decimal(10,3) not null,
-  primary key (gift_code)
+  primary key (gift_code_id)
 );
 
 -- table managerbranch
@@ -136,7 +137,8 @@ create table workhours (
   work_emp_id int(6) unsigned not null auto_increment,
   work_month int(5) not null,
   work_hours decimal(10,3) not null default 0.000,
-  primary key (work_emp_id,work_month)
+  primary key (work_emp_id,work_month),
+  CONSTRAINT workhours_month_check_constraint CHECK (work_month>=1 and work_month<=12)
 );
 
 -- employee foreign key-- 
@@ -168,7 +170,7 @@ alter table managerbranch
 -- order_ foreign key
 alter table order_
   add constraint fk_order__order_code
-  foreign key (order_code) references giftcode (gift_code);
+  foreign key (order_code) references giftcode (gift_code_id);
 
 alter table order_
   add constraint fk_order__order_emp_id
@@ -249,11 +251,34 @@ VALUES ('06:00-14:00'),
 INSERT INTO employee (emp_fullname, emp_address, emp_phone, emp_email, emp_birthday, emp_salary_per_hour, emp_password, emp_role_id, emp_branch_id, emp_shift_id)
 VALUES ('Will Smith','Sir Matt Busby Way, Old Trafford, Stretford, Manchester','0147851234','WillSmith@gmail.com',1994,13.77,'null',1,2,1),
  ('Tom Hanks','111 Centre St, New York','0147851234','TomHanksh@gmail.com',1990,14.77,'null',2,1,1),
- ('Brad Pitt','Sir Matt Busby Way, Old Trafford, Stretford, Manchester','0965851234','BradPitt@gmail.com',1998,12.77,'null',1,2,2);
+ ('Brad Pitt','Sir Matt Busby Way, Old Trafford, Stretford, Manchester','0965851234','BradPitt@gmail.com',1998,12.77,'null',1,2,2),
+ ('Nguyen van teo', 'London SW1A 1AA, United Kingdom', '01478523547', 'ahihi2@gmail.com', 1995, 12.5, 'emp_password', 3, 1, 2),
+ ('Hoang van ty', 'London EC3N 4AB, United Kingdom', '03698521456', 'ahihi3@gmail.com', 1995, 25.4, 'emp_password', 3, 1, 2),
+ ('Luong trieu Vy', ' London, United Kingdom', '0123654852', 'ahihi4@gmail.com', 1995, 15.8, 'emp_password', 1, 2, 1),
+ ('Luu duc hoa', 'Bd de Parc, 77700 Coupvray, France', '0147532159', 'ahihi6@gmail.com', 1995, 14.9, 'emp_password', 1, 2, 1);
 
 INSERT INTO product (product_name, product_listed_price, product_number, product_start_avg, product_category_id,product_image)
 VALUES ('Bacon, Sausage & Egg Wrap',12.5,150,2,1,'https://www.fastfoodpost.com/wp-content/uploads/2020/03/Starbucks-New-Southwest-Veggie-Wrap-And-New-Bacon-Sausage-Egg.jpg'),
 ('Bacon, Gouda & Egg Sandwich',13.8,200,4,1,'https://i.dayj.com/image/720/food/1898448/starbucks-bacon-gouda-and-egg-sandwich-1-piece.png'),
 ('Cold Brew Coffee', 8.2, 1000, 3, 4,'https://www.thespruceeats.com/thmb/gcBhhLtXnEd8JdM4zQDRSenkshI=/1885x1414/smart/filters:no_upscale()/coldbrewcoffeemicrogen-95e6ef2fc2c1411bbcf1cefe5e9e6879.jpg'),
-('Chocolate Cream Cold Brew', 10.2, 5000, 4, 4,'https://www.simplejoy.com/wp-content/uploads/2022/03/how-to-make-irish-cream-cold-brew-3-683x1024.jpg'),
-('Matcha Tea Latte', 9.8, 3000, 4, 2,'https://ostomyconnection.com/.image/ar_16:9%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cg_faces:center%2Cq_auto:good%2Cw_768/MTU1MzE4ODYyMDYwMDA0NTQw/green-macha-tea.jpg');
+('Chocolate Cream Cold Brew', 10.2, 5000, 4.4, 4,'https://www.simplejoy.com/wp-content/uploads/2022/03/how-to-make-irish-cream-cold-brew-3-683x1024.jpg'),
+('Matcha Tea Latte', 9.8, 3000, 4, 2,'https://ostomyconnection.com/.image/ar_16:9%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cg_faces:center%2Cq_auto:good%2Cw_768/MTU1MzE4ODYyMDYwMDA0NTQw/green-macha-tea.jpg'),
+('Mango Dragonfruit Lemonade', 7.8, 500, 3.1, 2,'https://cookathomemom.com/wp-content/uploads/2021/04/Mango-Dragonfruit-Lemonade.jpg');
+
+insert into giftcode(gift_code,gift_startdate,gift_expiredate,gift_value)
+VALUES ('ahihi2022','2022-04-05 00:00:00','2022-08-05 00:00:00',12.7),
+('ok2222','2022-05-05 00:00:00','2022-09-05 00:00:00',13.8),
+('heheh202','2022-05-25 00:00:00','2022-09-05 00:00:00',20.2);
+
+insert into managerbranch(emp_id, branch_id, startdate)
+VALUES (1, 4, '2020-09-01'),
+(2, 3, '2022-01-01'),
+(3, 2, '2021-03-01'),
+(4, 1, '2020-07-01');
+
+
+insert into workhours(work_emp_id, work_month, work_hours)
+VALUES (1, 4, 100.5),
+(2, 3,80.2 ),
+(3, 2,25.7 ),
+(4, 1,15.2 );
