@@ -187,3 +187,32 @@ create function theNumberOf_Product_in_productOrder_function(
     end //
 
 delimiter ;
+
+drop function if exists productOrderExist_function;
+delimiter //
+create function productOrderExist_function(
+        order_id_pa int(6),
+        product_id_pa int(6)
+    )
+    returns int(2)
+    deterministic
+    begin 
+        declare result int(2) default 0;
+        declare numb int(6) default 0;
+
+        select count(*)
+        into numb
+        from productorder
+        where order_id =order_id_pa and product_id=product_id_pa;
+        if numb<=0 then 
+            set result =0;        
+        else
+            set result =1;
+        end if;
+
+        return result;
+
+    end//
+delimiter ;
+
+

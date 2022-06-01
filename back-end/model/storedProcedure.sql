@@ -131,14 +131,23 @@ delimiter //
 create procedure productOrder_update_procedure(
         in order_id_pa int(6),
         product_id_pa int(6),
-        quantity_pa int(10)
+        new_quantity_pa int(10)
     )
     begin 
-        declare priceCounted decimal(10,3);
-        set priceCounted = get_price_from_product_id(product_id_pa) * quantity_pa;
+        declare new_priceCounted decimal(10,3) default 0.0;
+        declare old_priceCounted decimal(10,3) default 0.0;       
+        
+
+        set new_priceCounted = get_price_from_product_id(product_id_pa) * new_quantity_pa;
+        set old_priceCounted = product_price_from_productOrder_function(order_id_pa,product_id_pa);
+
         UPDATE productorder
-        set price = priceCounted
+        set price = new_priceCounted,quantity=new_quantity_pa
         where order_id = order_id_pa and product_id=product_id_pa;
+
+        update order_
+        set order_total_money = order_total_money + (new_priceCounted- old_priceCounted)
+        where order_id = order_id_pa;
     end //
 delimiter ;
 
