@@ -12,7 +12,8 @@ create table branch (
   branch_id int(6) unsigned not null auto_increment,
   branch_name varchar(250) default null,
   brach_location varchar(250) default null,
-  primary key (branch_id)
+  primary key (branch_id),
+  constraint branch_name_unique_constraint UNIQUE (branch_name)
 );
 
 -- table category
@@ -268,7 +269,110 @@ alter table workhours
 --     end//
 -- delimiter ;
 
- -- trigger 
+
+-- stored procedure branch
+drop procedure if exists branch_insert_procedure;
+delimiter //
+create procedure branch_insert_procedure(
+	in branch_name_pa varchar(250),
+    in branch_location_pa varchar(250)
+)
+begin
+	insert into branch (branch_name, brach_location)
+	VALUES (branch_name_pa, branch_location_pa);
+end //
+
+delimiter ;
+
+drop procedure if exists branch_update_location_procedure;
+delimiter //
+create procedure branch_update_location_procedure(
+	in branch_name_pa varchar(250),
+    in branch_location_pa varchar(250)
+)
+begin
+	UPDATE branch
+	SET brach_location = branch_location_pa
+	WHERE branch_name = branch_name_pa ;
+
+end //
+
+delimiter ;
+
+drop procedure if exists branch_update_name_procedure;
+delimiter //
+create procedure branch_update_name_procedure(
+	in branch_name_old varchar(250),
+    in branch_name_new varchar(250)
+)
+begin
+	UPDATE branch
+	SET branch_name = branch_name_new
+	WHERE branch_name = branch_name_old ;
+
+end //
+
+delimiter ;
+
+
+-- trigger branch
+drop trigger if exists branch_name_check_insert_trigger;
+delimiter //
+create trigger branch_name_check_insert_trigger
+	before insert on branch for each row
+    begin
+		  declare numb int default 10;
+		  declare newbranchname varchar(50) default '';
+      declare errormessage varchar(300) default '';
+
+        set newbranchname = new.branch_name;
+        select count(*)
+        into numb
+        from branch
+        where branch_name = newbranchname;
+
+        set errormessage = concat('this branch ', newbranchname,' is exists! inserting wrong'        
+		    );
+
+        if numb > 0 then 
+          signal sqlstate '45000'
+            set message_text = errormessage;
+        end if;
+    
+    end//
+delimiter ;
+
+-- drop trigger if exists branch_name_check_update_trigger;
+-- delimiter //
+-- create trigger branch_name_check_update_trigger
+--   before update on branch for each row
+--     begin
+--       declare numb int default 10;
+-- 		  declare newbranchname varchar(50) default '';
+--       declare errormessage varchar(300) default '';
+
+--       set newbranchname = new.branch_name;
+--       select count(*)
+--       into numb
+--       from branch
+--       where branch_name = newbranchname;
+
+--       set errormessage = concat('this branch ', newbranchname,' is exists! so update wrong'        
+--       );
+
+--       if numb > 0 then 
+--         signal sqlstate '45000'
+--           set message_text = errormessage;
+--       end if;
+
+
+--     end//
+
+-- delimiter ;
+
+ -- trigger employee
+
+
 drop trigger if exists employee_age_check_insert_trigger;
 delimiter //
 create trigger employee_age_check_insert_trigger
@@ -403,7 +507,8 @@ insert into branch (branch_name, brach_location)
 values ('nyc', '111 centre st, new york, ny 10013, united states'),
 ('london','exhibition rd, south kensington, london sw7 2bx, united kingdom'),
 ('paris','24 rue du commandant guilbaud, 75016 paris, france'),
-('madrid','de concha espina, 1, 28036 madrid, spain');
+('madrid','de concha espina, 1, 28036 madrid, spain')
+;
 
 
 insert into category (category_name)
@@ -469,9 +574,11 @@ values (1, 4, 100.5),
 -- SET emp_birthday = '2021-01-01'
 -- WHERE emp_id=1;
 
-UPDATE giftcode
-SET gift_code ='test2'
-WHERE gift_code_id=1;
+-- UPDATE branch
+-- SET branch_name ='london'
+-- WHERE branch_id=2;
+
+-- call `branch_insert_procedure`('paris','123 man');
 
 -- insert into giftcode(gift_code,gift_startdate,gift_expiredate,gift_value)
 -- values ('ahihi2022','2022-04-05 00:00:00','2022-08-05 00:00:00',12.7),
