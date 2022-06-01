@@ -68,3 +68,94 @@ create procedure category_update_procedure(
         WHERE category_name=category_name_old;
     end //
 delimiter ;
+
+
+-- stored procedure order_
+
+drop procedure if exists order__insert_procedure;
+delimiter //
+create procedure order__insert_procedure(
+        order_customer_id_pa int(6) unsigned ,
+        order_emp_id_pa int(6) unsigned,
+        order_address_pa varchar(250)
+    )
+    begin 
+        insert into order_(order_date,order_address,order_emp_id,order_customer_id)
+        values(NOW(),order_address_pa,order_emp_id_pa,order_customer_id_pa);
+    end//
+delimiter ;
+
+
+drop procedure if exists order__insert_with_giftcode_procedure;
+delimiter //
+create procedure order__insert_with_giftcode_procedure(
+        order_customer_id_pa int(6) unsigned ,
+        order_emp_id_pa int(6) unsigned,
+        order_code_pa varchar(20),
+        order_address_pa varchar(250)
+    )
+    begin 
+        insert into order_(order_date,order_address,order_emp_id,order_customer_id,order_code)
+        values(NOW(),order_address_pa,order_emp_id_pa,order_customer_id_pa,order_code_pa);
+    end//
+delimiter ;
+
+
+-- stored procedure productOrder
+
+drop procedure if exists productOrder_insert_procedure;
+delimiter //
+create procedure productOrder_insert_procedure(
+        in order_id_pa int(6),
+        product_id_pa int(6),
+        quantity_pa int(10)
+    )
+    begin 
+        declare priceCounted decimal(10,3);
+
+        set priceCounted = get_price_from_product_id(product_id_pa) * quantity_pa;
+        insert into productorder(order_id,product_id,quantity,price)
+        values(order_id_pa,product_id_pa,quantity_pa,priceCounted);
+
+        call product_decrease_procedure(product_id_pa,quantity_pa);
+
+        UPDATE order_
+        SET order_total_money = order_total_money+priceCounted
+        WHERE order_id=order_id_pa;
+    end //
+delimiter ;
+
+
+drop procedure if exists productOrder_update_procedure;
+delimiter //
+create procedure productOrder_update_procedure(
+        in order_id_pa int(6),
+        product_id_pa int(6),
+        quantity_pa int(10)
+    )
+    begin 
+        declare priceCounted decimal(10,3);
+        set priceCounted = get_price_from_product_id(product_id_pa) * quantity_pa;
+        UPDATE productorder
+        set price = priceCounted
+        where order_id = order_id_pa and product_id=product_id_pa;
+    end //
+delimiter ;
+
+drop procedure if exists productOrder_delete_procedure;
+delimiter //
+create procedure productOrder_delete_procedure(
+        in order_id_pa int(6),
+        product_id_pa int(6)
+    )
+    begin 
+        DELETE FROM productorder
+        where order_id = order_id_pa and product_id=product_id_pa;
+
+        call product_increase_procedure(product_id_pa,quantity_pa);
+
+        UPDATE order_
+        SET order_total_money = order_total_money-priceCounted
+        WHERE order_id=order_id_pa;
+    end //
+delimiter ;

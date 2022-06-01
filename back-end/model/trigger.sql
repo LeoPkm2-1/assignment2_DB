@@ -214,6 +214,44 @@ create trigger giftcode_time_check_update_trigger
   end //
 delimiter ;
 
+-- productorder trigger
+drop trigger if exists productorder_check_insert_trigger;
+delimiter //
+create trigger productorder_check_insert_trigger
+  before insert on productorder for each row
+  begin 
+
+    declare orderExist int(2) default 0;
+    declare productExist int(2) default 0;
+    declare errormessage varchar(300) default '';
+
+    set orderExist = order_exists_function(new.order_id);
+    set productExist = check_product_exists(new.product_id);
+
+    if orderExist < 1 then
+      set errormessage = concat('Order not exist !'        
+		    );
+      signal sqlstate '45000'
+            set message_text = errormessage;
+    end if;
+
+    if productExist < 1 then
+      set errormessage = concat('Product not exist !'        
+		    );
+      signal sqlstate '45000'
+            set message_text = errormessage;
+    end if;
+
+    if new.quantity > get_quantity_from_product_id(new.product_id) then
+      set errormessage = concat('The quantity too large to serve, sorry'        
+		    );
+      signal sqlstate '45000'
+            set message_text = errormessage;
+    end if;
+
+  end //
+delimiter ;
+
 
 -- trigger 
 -- drop trigger if exists employee_age_check_trigger;

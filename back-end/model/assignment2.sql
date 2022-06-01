@@ -86,7 +86,7 @@ create table order_ (
   order_status varchar(50) not null default 'processing',
   order_emp_id int(6) unsigned default null,
   order_customer_id int(6) unsigned default null,
-  order_code int(6) unsigned default null,
+  order_code varchar(20) default 'NoneGift',
   primary key (order_id)
 );
 
@@ -175,7 +175,7 @@ alter table managerbranch
 -- order_ foreign key
 alter table order_
   add constraint fk_order__order_code
-  foreign key (order_code) references giftcode (gift_code_id);
+  foreign key (order_code) references giftcode (gift_code);
 
 alter table order_
   add constraint fk_order__order_emp_id
@@ -276,9 +276,11 @@ values ('bacon, sausage & egg wrap',12.5,150,2,1,'https://www.fastfoodpost.com/w
 ('mango dragonfruit lemonade', 7.8, 500, 3.1, 2,'https://cookathomemom.com/wp-content/uploads/2021/04/mango-dragonfruit-lemonade.jpg');
 
 insert into giftcode(gift_code,gift_startdate,gift_expiredate,gift_value)
-values ('ahihi2022','2022-04-05 00:00:00','2022-08-05 00:00:00',12.7),
+values ('NoneGift','2001-01-01 00:00:00','2221-01-01 00:00:01',0.0),
+('ahihi2022','2022-04-05 00:00:00','2022-08-05 00:00:00',12.7),
 ('ok2222','2022-05-05 00:00:00','2022-09-05 00:00:00',13.8),
 ('heheh202','2022-05-25 00:00:00','2022-05-25 00:00:01',20.2);
+
 
 insert into managerbranch(emp_id, branch_id, startdate)
 values (1, 4, '2020-09-01'),
@@ -294,12 +296,12 @@ values (1, 4, 100.5),
 (4, 1,15.2 );
 
 
-INSERT INTO order_ (order_id, order_date, order_address, order_total_money, order_status, order_emp_id, order_customer_id, order_code) VALUES
-(1, '00:00:00', 'KTX khu A', '120.700', 'processing', NULL, NULL, NULL),
-(2, '01:22:11', 'KTX khu B', '200.000', 'processing', NULL, NULL, NULL),
-(3, '01:22:11', 'KTX khu B', '200.000', 'processing', NULL, NULL, NULL),
-(4, '02:42:11', 'SPKT', '300.000', 'processing', NULL, NULL, NULL),
-(5, '03:54:11', 'Kien truc', '510.000', 'processing', NULL, NULL, NULL);
+-- INSERT INTO order_ (order_id, order_date, order_address, order_total_money, order_status, order_emp_id, order_customer_id, order_code) VALUES
+-- (1, '00:00:00', 'KTX khu A', '120.700', 'processing', NULL, NULL, NULL),
+-- (2, '01:22:11', 'KTX khu B', '200.000', 'processing', NULL, NULL, NULL),
+-- (3, '01:22:11', 'KTX khu B', '200.000', 'processing', NULL, NULL, NULL),
+-- (4, '02:42:11', 'SPKT', '300.000', 'processing', NULL, NULL, NULL),
+-- (5, '03:54:11', 'Kien truc', '510.000', 'processing', NULL, NULL, NULL);
 
 -- UPDATE employee
 -- SET emp_birthday = '2021-01-01'
