@@ -44,7 +44,7 @@ create table employee (
   emp_id int(6) unsigned not null auto_increment,
   emp_fullname varchar(250) not null,
   emp_address varchar(250) default null,
-  emp_phone varchar(250) not null,
+  emp_phone varchar(11) not null,
   emp_email varchar(50) default null,
   emp_birthday date not null,
   emp_salary_per_hour decimal(10,3) default null,
@@ -52,7 +52,8 @@ create table employee (
   emp_role_id int(6) unsigned not null,
   emp_branch_id int(6) unsigned not null,
   emp_shift_id int(6) unsigned not null,
-  primary key (emp_id)
+  primary key (emp_id),
+  constraint emp_phone_unique_constraint UNIQUE (emp_phone)
 
 );
 
@@ -257,7 +258,7 @@ values ('06:00-14:00'),
 insert into employee (emp_fullname, emp_address, emp_phone, emp_email, emp_birthday, emp_salary_per_hour, emp_password, emp_role_id, emp_branch_id, emp_shift_id)
 values 
  ('will smith','sir matt busby way, old trafford, stretford, manchester','0147851234','willsmith@gmail.com','1994-02-15',13.77,'null',1,2,1),
- ('tom hanks','111 centre st, new york','0147851234','tomhanksh@gmail.com','1990-02-15',14.77,'null',2,1,1),
+ ('tom hanks','111 centre st, new york','0147851231','tomhanksh@gmail.com','1990-02-15',14.77,'null',2,1,1),
  ('brad pitt','sir matt busby way, old trafford, stretford, manchester','0965851234','bradpitt@gmail.com','1998-02-15',12.77,'null',1,2,2),
  ('nguyen van teo', 'london sw1a 1aa, united kingdom', '01478523547', 'ahihi2@gmail.com', '1999-01-15', 12.5, 'emp_password', 3, 1, 2),
  ('hoang van ty', 'london ec3n 4ab, united kingdom', '03698521456', 'ahihi3@gmail.com', '1995-02-15', 25.4, 'emp_password', 3, 1, 2),
@@ -291,6 +292,14 @@ values (1, 4, 100.5),
 (2, 3,80.2 ),
 (3, 2,25.7 ),
 (4, 1,15.2 );
+
+
+INSERT INTO order_ (order_id, order_date, order_address, order_total_money, order_status, order_emp_id, order_customer_id, order_code) VALUES
+(1, '00:00:00', 'KTX khu A', '120.700', 'processing', NULL, NULL, NULL),
+(2, '01:22:11', 'KTX khu B', '200.000', 'processing', NULL, NULL, NULL),
+(3, '01:22:11', 'KTX khu B', '200.000', 'processing', NULL, NULL, NULL),
+(4, '02:42:11', 'SPKT', '300.000', 'processing', NULL, NULL, NULL),
+(5, '03:54:11', 'Kien truc', '510.000', 'processing', NULL, NULL, NULL);
 
 -- UPDATE employee
 -- SET emp_birthday = '2021-01-01'
