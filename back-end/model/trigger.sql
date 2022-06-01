@@ -253,6 +253,63 @@ create trigger productorder_check_insert_trigger
 delimiter ;
 
 
+drop trigger if exists productorder_check_update_trigger;
+delimiter //
+create trigger productorder_check_update_trigger
+  before update on productorder for each row
+  begin
+    DECLARE errorMessage VARCHAR(255) default'';
+    declare isexists int(2) default 0;
+
+
+    set isexists = productOrderExist_function(new.order_id,new.product_id);
+
+    IF isexists <= 0 THEN
+		  SET errorMessage = CONCAT(errorMessage,'Product not in cart');
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = errorMessage;
+    END IF;
+
+    if new.quantity < 0 then 
+		SET errorMessage = CONCAT(errorMessage,'the quantity of product must not negative number');
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = errorMessage;
+
+    end if;
+
+    
+
+  end//
+
+delimiter ;
+
+drop trigger if exists productorder_check_delete_trigger;
+delimiter //
+create trigger productorder_check_delete_trigger
+  before delete on productorder for each row
+  begin 
+
+    declare Product_in_order_exist int(2) default 0;
+    declare errormessage varchar(100) default '';
+
+    select count(*)
+    into Product_in_order_exist
+    from productorder
+    where order_id = old.order_id and product_id = old.product_id;
+
+    if Product_in_order_exist <= 0 then 
+      set errormessage = concat('Order not exist !'        
+      );
+      signal sqlstate '45000'
+            set message_text = errormessage;
+
+    end if;
+
+
+  end //
+delimiter ;
+
+
 -- trigger 
 -- drop trigger if exists employee_age_check_trigger;
 -- delimiter //
