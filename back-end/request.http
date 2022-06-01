@@ -1,1 +1,6 @@
-GET http://localhost:5000/api/category/get
+DELETE  http://localhost:5000/api/product/delete
+Content-Type: application/json
+
+{
+    "id":3
+}

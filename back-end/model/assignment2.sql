@@ -255,16 +255,18 @@ insert into shift (shift_time)
 values ('06:00-14:00'),
 ('14:00-22:00');
 
-insert into employee (emp_fullname, emp_address, emp_phone, emp_email, emp_birthday, emp_salary_per_hour, emp_password, emp_role_id, emp_branch_id, emp_shift_id)
-values 
- ('will smith','sir matt busby way, old trafford, stretford, manchester','0147851234','willsmith@gmail.com','1994-02-15',13.77,'null',1,2,1),
- ('tom hanks','111 centre st, new york','0147851231','tomhanksh@gmail.com','1990-02-15',14.77,'null',2,1,1),
- ('brad pitt','sir matt busby way, old trafford, stretford, manchester','0965851234','bradpitt@gmail.com','1998-02-15',12.77,'null',1,2,2),
- ('nguyen van teo', 'london sw1a 1aa, united kingdom', '01478523547', 'ahihi2@gmail.com', '1999-01-15', 12.5, 'emp_password', 3, 1, 2),
- ('hoang van ty', 'london ec3n 4ab, united kingdom', '03698521456', 'ahihi3@gmail.com', '1995-02-15', 25.4, 'emp_password', 3, 1, 2),
- ('luong trieu vy', ' london, united kingdom', '0123654852', 'ahihi4@gmail.com', '1995-08-25', 15.8, 'emp_password', 1, 2, 1), 
- ('luu duc hoa', 'bd de parc, 77700 coupvray, france', '0147532159', 'ahihi6@gmail.com', '1995-03-15', 14.9, 'emp_password', 1, 2, 1)
- ;
+INSERT INTO `employee` (`emp_id`, `emp_fullname`, `emp_address`, `emp_phone`, `emp_email`, `emp_birthday`, `emp_salary_per_hour`, `emp_password`, `emp_role_id`, `emp_branch_id`, `emp_shift_id`) VALUES
+(1, 'will smith', 'sir matt busby way, old trafford, stretford, manchester', '0147851234', 'willsmith@gmail.com', '1994-02-15', '13.770', 'null', 1, 2, 1),
+(2, 'tom hanks', '111 centre st, new york', '0147851231', 'tomhanksh@gmail.com', '1990-02-15', '14.770', 'null', 2, 1, 1),
+(3, 'brad pitt', 'sir matt busby way, old trafford, stretford, manchester', '0965851234', 'bradpitt@gmail.com', '1998-02-15', '12.770', 'null', 1, 2, 2),
+(4, 'nguyen van teo', 'london sw1a 1aa, united kingdom', '01478523547', 'ahihi2@gmail.com', '1999-01-15', '12.500', 'emp_password', 3, 1, 2),
+(5, 'hoang van ty', 'london ec3n 4ab, united kingdom', '03698521456', 'ahihi3@gmail.com', '1995-02-15', '25.400', 'emp_password', 3, 1, 2),
+(6, 'luong trieu vy', ' london, united kingdom', '0123654852', 'ahihi4@gmail.com', '1995-08-25', '15.800', 'emp_password', 1, 2, 1),
+(7, 'luu duc hoa', 'bd de parc, 77700 coupvray, france', '0147532159', 'ahihi6@gmail.com', '1995-03-15', '14.900', 'emp_password', 1, 2, 1),
+(8, 'nguyen chi tue', 'BK tphcm', '01212352381', 'tue@gmail.com', '2000-03-17', '15000.000', 'emp_password', 2, 3, 2),
+(9, 'nguyen van', 'spkt tphcm', '0123523815', 'van@gmail.com', '2000-03-18', '14000.000', 'emp_password', 2, 3, 2),
+(10, 'van bui', 'kien truc tphcm', '01123142381', 'vui@gmail.com', '2000-03-17', '121000.000', 'emp_password', 2, 4, 2),
+(11, 'van tran', 'kien truc tphcm', '0111423815', 'vui123@gmail.com', '2000-03-14', '131000.000', 'emp_password', 2, 4, 2);
 
 
 insert into product (product_name, product_listed_price, product_number, product_start_avg, product_category_id,product_image)
