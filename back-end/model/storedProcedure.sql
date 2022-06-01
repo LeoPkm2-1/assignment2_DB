@@ -145,10 +145,18 @@ delimiter ;
 drop procedure if exists productOrder_delete_procedure;
 delimiter //
 create procedure productOrder_delete_procedure(
-        in order_id_pa int(6),
+        order_id_pa int(6),
         product_id_pa int(6)
     )
     begin 
+        
+
+        declare quantity_pa int(10) default 0;
+        declare priceCounted decimal(10,3) default 0.000;
+        set quantity_pa = product_quantity_from_productOrder_function(order_id_pa,product_id_pa);
+        
+        set priceCounted = product_price_from_productOrder_function(order_id_pa,product_id_pa);
+
         DELETE FROM productorder
         where order_id = order_id_pa and product_id=product_id_pa;
 
@@ -157,5 +165,36 @@ create procedure productOrder_delete_procedure(
         UPDATE order_
         SET order_total_money = order_total_money-priceCounted
         WHERE order_id=order_id_pa;
+    end //
+delimiter ;
+
+-- stored procedure of product
+drop procedure if exists product_decrease_procedure;
+delimiter //
+create procedure product_decrease_procedure(
+        in product_id_pa int(6),
+        quantity_pa int(10)
+    )
+    begin 
+        declare number_counted int(11);
+        set number_counted = get_quantity_from_product_id(product_id_pa) - quantity_pa;
+        UPDATE product
+        set product_number = number_counted
+        where product_id = product_id_pa;
+    end //
+delimiter ;
+
+drop procedure if exists product_increase_procedure;
+delimiter //
+create procedure product_increase_procedure(
+        in product_id_pa int(6),
+        quantity_pa int(10)
+    )
+    begin 
+        declare number_counted int(11);
+        set number_counted = get_quantity_from_product_id(product_id_pa) + quantity_pa;
+        UPDATE product
+        set product_number = number_counted
+        where product_id = product_id_pa;
     end //
 delimiter ;

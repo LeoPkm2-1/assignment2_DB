@@ -126,32 +126,43 @@ create function get_quantity_from_product_id(
 delimiter ;
 
 
-drop procedure if exists product_decrease_procedure;
+
+
+drop function if exists product_quantity_from_productOrder_function;
 delimiter //
-create procedure product_decrease_procedure(
-        in product_id_pa int(6),
-        quantity_pa int(10)
+create function product_quantity_from_productOrder_function(
+        order_id_pa int(6),
+        product_id_pa int(6)
     )
+    returns int(10)
+    deterministic
     begin 
-        declare number_counted int(11);
-        set number_counted = get_quantity_from_product_id(product_id_pa) - quantity_pa;
-        UPDATE product
-        set product_number = number_counted
-        where product_id = product_id_pa;
+        declare result int(10) default 0;
+        select quantity
+        into result
+        from productorder
+        where order_id=order_id_pa and product_id = product_id_pa;
+        return result;
     end //
+
 delimiter ;
 
-drop procedure if exists product_increase_procedure;
+
+drop function if exists product_price_from_productOrder_function;
 delimiter //
-create procedure product_increase_procedure(
-        in product_id_pa int(6),
-        quantity_pa int(10)
+create function product_price_from_productOrder_function(
+        order_id_pa int(6),
+        product_id_pa int(6)
     )
+    returns decimal(10,3)
+    deterministic
     begin 
-        declare number_counted int(11);
-        set number_counted = get_quantity_from_product_id(product_id_pa) + quantity_pa;
-        UPDATE product
-        set product_number = number_counted
-        where product_id = product_id_pa;
+        declare result decimal(10,3) default 0;
+        select price
+        into result
+        from productorder
+        where order_id=order_id_pa and product_id = product_id_pa;
+        return result;
     end //
+
 delimiter ;
