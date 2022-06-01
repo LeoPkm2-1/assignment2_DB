@@ -166,3 +166,24 @@ create function product_price_from_productOrder_function(
     end //
 
 delimiter ;
+
+
+drop function if exists theNumberOf_Product_in_productOrder_function;
+delimiter //
+create function theNumberOf_Product_in_productOrder_function(
+        order_id_pa int(6)
+    )
+    returns int(6)
+    deterministic
+    begin 
+        declare result int(6) default 0;
+
+        select count(*)
+        into result
+        from productorder
+        where order_id =order_id_pa;
+
+        return result;
+    end //
+
+delimiter ;

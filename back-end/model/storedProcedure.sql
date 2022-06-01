@@ -153,18 +153,33 @@ create procedure productOrder_delete_procedure(
 
         declare quantity_pa int(10) default 0;
         declare priceCounted decimal(10,3) default 0.000;
+        declare numberremain int(5) default 0;
+
         set quantity_pa = product_quantity_from_productOrder_function(order_id_pa,product_id_pa);
         
         set priceCounted = product_price_from_productOrder_function(order_id_pa,product_id_pa);
 
+        
+
         DELETE FROM productorder
         where order_id = order_id_pa and product_id=product_id_pa;
 
+
+        set numberremain = theNumberOf_Product_in_productOrder_function(order_id_pa);
+
+        if numberremain = 0 then 
+            DELETE FROM order_
+            where order_id = order_id_pa;
+        end if;
+        
         call product_increase_procedure(product_id_pa,quantity_pa);
 
         UPDATE order_
         SET order_total_money = order_total_money-priceCounted
         WHERE order_id=order_id_pa;
+
+
+
     end //
 delimiter ;
 
