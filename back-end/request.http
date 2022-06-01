@@ -1,6 +1,8 @@
-DELETE  http://localhost:5000/api/product/delete
+PUT http://localhost:5000/api/productorder/update
 Content-Type: application/json
 
 {
-    "id":3
+    "order_id":1,
+    "product_id":4,
+    "quantity":3
 }

@@ -129,7 +129,7 @@ delimiter ;
 drop procedure if exists productOrder_update_procedure;
 delimiter //
 create procedure productOrder_update_procedure(
-        in order_id_pa int(6),
+        order_id_pa int(6),
         product_id_pa int(6),
         new_quantity_pa int(10)
     )
@@ -142,7 +142,7 @@ create procedure productOrder_update_procedure(
         set old_priceCounted = product_price_from_productOrder_function(order_id_pa,product_id_pa);
 
         UPDATE productorder
-        set price = new_priceCounted,quantity=new_quantity_pa
+        SET quantity=new_quantity_pa, price = new_priceCounted
         where order_id = order_id_pa and product_id=product_id_pa;
 
         update order_
