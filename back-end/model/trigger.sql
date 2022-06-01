@@ -1,3 +1,4 @@
+use assignment2;
 -- trigger branch
 drop trigger if exists branch_name_check_insert_trigger;
 delimiter //
@@ -25,6 +26,60 @@ create trigger branch_name_check_insert_trigger
     end//
 delimiter ;
 
+
+-- trigger category
+drop trigger if exists category_name_check_insert_trigger;
+delimiter //
+create trigger category_name_check_insert_trigger
+  before insert on category for each row
+  begin 
+    declare newname varchar(250) default '' ;
+    declare errormessage varchar(300) default '';
+    declare numb int default 10;
+
+    set newname = new.category_name;
+    select count(*)
+    into numb
+    from category
+    where category_name = newname;
+
+    set errormessage = concat('this category ', newname,' is exists! inserting wrong'        
+    );
+
+    if numb > 0 then 
+      signal sqlstate '45000'
+        set message_text = errormessage;
+    end if;
+
+  end //
+delimiter ;
+
+drop trigger if exists category_name_check_update_trigger;
+delimiter //
+create trigger category_name_check_update_trigger
+  before update on category for each row
+  begin 
+    declare newname varchar(250) default '' ;
+    declare errormessage varchar(300) default '';
+    declare numb int default 10;
+
+    set newname = new.category_name;
+    select count(*)
+    into numb
+    from category
+    where category_name = newname and category_id <> new.category_id;
+
+    set errormessage = concat('this category ', newname,
+      ' is exists! updating wrong'        
+    );
+    
+    if numb > 0 then 
+      signal sqlstate '45000'
+        set message_text = errormessage;
+    end if;
+
+  end //
+delimiter ;
 
 
  -- trigger employee

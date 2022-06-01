@@ -21,7 +21,8 @@ drop table if exists category;
 create table category (
   category_id int(6) unsigned not null auto_increment,
   category_name varchar(250) not null,
-  primary key (category_id)
+  primary key (category_id),
+  constraint category_name_unique_constraint UNIQUE (category_name)
 );
 
 -- table customer
@@ -30,10 +31,11 @@ create table customer (
   cus_id int(6) unsigned not null auto_increment,
   cus_fullname varchar(250) not null,
   cus_address varchar(250) default null,
-  cus_phone varchar(250) not null,
+  cus_phone varchar(11) not null,
   cus_email varchar(50) default null,
   cus_password varchar(250) not null,
-  primary key (cus_id)
+  primary key (cus_id),
+  constraint cus_phone_unique_constraint UNIQUE (cus_phone)
 );
 
 -- table employee
