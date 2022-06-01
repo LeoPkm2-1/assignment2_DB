@@ -259,25 +259,27 @@ create trigger productorder_check_update_trigger
   before update on productorder for each row
   begin
     DECLARE errorMessage VARCHAR(255) default'';
-    declare isexists int(2) default 0;
+    declare isexists int(1) default 0;
 
 
     set isexists = productOrderExist_function(new.order_id,new.product_id);
 
-    IF isexists <= 0 THEN
+    IF isexists !=1 THEN
 		  SET errorMessage = CONCAT(errorMessage,'Product not in cart');
-        SIGNAL SQLSTATE '45000' 
+
+      SIGNAL SQLSTATE '45000' 
         SET MESSAGE_TEXT = errorMessage;
+
     END IF;
 
-    if new.quantity < 0 then 
-		SET errorMessage = CONCAT(errorMessage,'the quantity of product must not negative number');
-        SIGNAL SQLSTATE '45000' 
-        SET MESSAGE_TEXT = errorMessage;
+    -- if new.quantity < 0 then 
 
-    end if;
+		--   SET errorMessage = CONCAT(errorMessage,'the quantity of product must not negative number');
+      
+    --   SIGNAL SQLSTATE '45000' 
+    --     SET MESSAGE_TEXT = errorMessage;
 
-    
+    -- end if;    
 
   end//
 
