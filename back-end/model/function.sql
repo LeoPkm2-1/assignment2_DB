@@ -216,3 +216,82 @@ create function productOrderExist_function(
 delimiter ;
 
 
+drop function if exists get_total_priceOfOrder;
+delimiter //
+create function get_total_priceOfOrder(
+		order_id_pa int(6)
+	)
+    returns decimal(10,3)
+    DETERMINISTIC
+    begin
+		DECLARE finished INTEGER DEFAULT 0;
+		DECLARE priceItem  decimal(10,3) DEFAULT 0;
+        declare result decimal(10,3) DEFAULT 0.0;
+        declare temp integer DEFAULT 0;
+
+        
+        DEClARE curprice
+			CURSOR FOR 
+				SELECT price FROM productorder where order_id = order_id_pa;
+                
+		DECLARE CONTINUE HANDLER 
+			FOR NOT FOUND SET finished = 1;
+		
+        set temp = theNumberOf_Product_in_productOrder_function(order_id_pa);
+		
+        if temp =0 then 
+			set result=0;
+            return result;
+        end if;
+		
+            
+		open curprice ;
+        coutloop: loop
+			FETCH curprice INTO priceItem;
+			IF finished = 1 THEN 
+				LEAVE coutloop;
+			end if;
+            
+            set result= result+priceItem;
+        
+        end loop coutloop;       
+        
+        close curprice;
+        
+        RETURN result;
+    
+    end //
+delimiter ;
+
+
+drop function if exists numberOfOrder_Have_Product_Proccessing;
+delimiter //
+create function numberOfOrder_Have_Product_Proccessing(
+		product_id_pa int(6)
+	)
+    returns integer
+    deterministic
+    begin 
+		
+        declare result integer default 0;
+        
+        select count(*)
+        into result
+        from
+        (
+        	select p1.order_id,p1.product_id
+			from productorder as p1
+			where p1.product_id=product_id_pa and p1.order_id in (
+				select order_id
+				from order_
+				where order_status='processing'
+			)
+        ) as tabletemp;
+        return result;        
+    
+    end //  
+delimiter ;
+
+
+
+

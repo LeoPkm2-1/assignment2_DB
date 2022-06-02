@@ -111,7 +111,7 @@ create procedure productOrder_insert_procedure(
         quantity_pa int(10)
     )
     begin 
-        declare priceCounted decimal(10,3);
+        declare priceCounted decimal(10,3) default 0.0;
 
         set priceCounted = get_price_from_product_id(product_id_pa) * quantity_pa;
         insert into productorder(order_id,product_id,quantity,price)
@@ -120,7 +120,9 @@ create procedure productOrder_insert_procedure(
         call product_decrease_procedure(product_id_pa,quantity_pa);
 
         UPDATE order_
-        SET order_total_money = order_total_money+priceCounted
+        SET order_total_money = order_total_money
+        -- +priceCounted
+        -- SET order_total_money = priceCounted
         WHERE order_id=order_id_pa;
     end //
 delimiter ;

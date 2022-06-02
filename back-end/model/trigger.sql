@@ -1,4 +1,43 @@
+
 use assignment2;
+
+-- trigger product 
+drop trigger if exists update_product_before_trigger
+delimiter //
+create trigger update_product_before_trigger
+	BEFORE UPDATE
+	ON product FOR EACH ROW
+    begin
+		declare errormessage varchar(250) default '';
+		if new.product_listed_price <0 then 
+			set errormessage = concat('','the price of product must not be negative!'        
+			);
+			signal sqlstate '45000'
+				set message_text = errormessage;        
+        end if;
+        
+        
+        if new.product_number <0 then 
+			set errormessage = concat('','the number of product must be positive!'        
+			);
+			signal sqlstate '45000'
+				set message_text = errormessage;  
+        end if;
+        
+        if new.product_start_avg < 0.0 then 
+			set errormessage = concat('','the star of product must be positive!'        
+			);
+			signal sqlstate '45000'
+				set message_text = errormessage;  
+        end if;
+    end //
+
+delimiter ;
+
+
+
+
+
 -- trigger branch
 drop trigger if exists branch_name_check_insert_trigger;
 delimiter //
@@ -280,6 +319,8 @@ create trigger productorder_check_update_trigger
         SET MESSAGE_TEXT = errorMessage;
 
      end if;    
+	
+    set new.price=new.quantity * get_price_from_product_id(new.product_id);
 
   end//
 
@@ -310,6 +351,87 @@ create trigger productorder_check_delete_trigger
 
   end //
 delimiter ;
+
+
+
+drop trigger if exists update_product_after_1_trigger;
+delimiter //
+create trigger update_product_after_1_trigger
+	after UPDATE
+	ON product FOR EACH ROW
+    begin
+		
+        update productorder as a 
+		inner join (
+			select p1.order_id,p1.product_id
+			from productorder as p1
+			where p1.product_id=new.product_id and p1.order_id in (
+				select order_id
+				from order_
+				where order_status='processing'
+			)
+		) as b
+		on (a.order_id,a.product_id) = (b.order_id,b.product_id)
+		set  a.price =new.product_listed_price * a.quantity;
+        
+    end //
+
+delimiter ;
+
+
+
+drop trigger if exists update_product_after_2_trigger;
+delimiter //
+create trigger update_product_after_2_trigger
+	after UPDATE
+	ON product FOR EACH ROW
+    FOLLOWS update_product_after_1_trigger
+    bodyblock:begin
+    
+    declare testtemp integer default 0;
+    DECLARE finished INTEGER DEFAULT 0;
+    DECLARE order_id_item int(6) DEFAULT 0;
+    declare price_temp_toStore decimal(10,3) default 0.0;
+    
+    DEClARE curOrderId 
+		CURSOR FOR 
+			select p1.order_id
+			from productorder as p1
+			where p1.product_id=new.product_id and p1.order_id in (
+				select order_id
+				from order_
+				where order_status='processing'
+			);
+
+	-- declare NOT FOUND handler
+	DECLARE CONTINUE HANDLER 
+        FOR NOT FOUND SET finished = 1;
+    
+    set testtemp = numberOfOrder_Have_Product_Proccessing(new.product_id);
+    if testtemp = 0 then 
+		leave bodyblock;
+    end if;
+    
+    open curOrderId;
+    
+    getcount:loop
+		FETCH curOrderId INTO order_id_item;
+		IF finished = 1 THEN 
+			LEAVE getcount;
+		END IF;
+        set price_temp_toStore = get_total_priceOfOrder(order_id_item);
+        
+        UPDATE order_
+		SET order_total_money = price_temp_toStore
+		WHERE order_id=order_id_item  ;
+        
+    end loop getcount;
+    close curOrderId;   
+		
+    end //
+delimiter ;
+
+
 
 
 -- trigger 
