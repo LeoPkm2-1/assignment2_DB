@@ -272,14 +272,14 @@ create trigger productorder_check_update_trigger
 
     END IF;
 
-    -- if new.quantity < 0 then 
+    if new.quantity < 0 then 
 
-		--   SET errorMessage = CONCAT(errorMessage,'the quantity of product must not negative number');
+		 SET errorMessage = CONCAT(errorMessage,'the quantity of product must not negative number');
       
-    --   SIGNAL SQLSTATE '45000' 
-    --     SET MESSAGE_TEXT = errorMessage;
+      SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = errorMessage;
 
-    -- end if;    
+     end if;    
 
   end//
 

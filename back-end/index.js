@@ -2,7 +2,7 @@ const express =require('express');
 
 const categoryRouter=require('./route/category');
 const productRouter=require('./route/product');
-const productorderRouter=require('./route/productorder');
+const productorderRouter=require('./route/productOrder');
 const orderRouter=require('./route/order')
 const productWithCategoryRouter = require('./route/productWithCategory')
 const app =express();
