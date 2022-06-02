@@ -14,32 +14,36 @@ router.get('/get',(req,res)=>{
 });
 
 router.delete('/delete',(req,res)=>{
-    console.log(req)
-    const {id}=req.body;
-    const sql = `DELETE FROM product WHERE product_id = ${id}`
+    const {order_id,product_id}=req.body;
+    const sql = `call productOrder_delete_procedure(${order_id},${product_id})`
     con.query(sql,(err,results)=>{
         if(err){
             throw err;
         }
-        res.json(`Product ${id} deleted`)
+        res.json(`Product deleted`)
+    })
+})
+
+router.post('/post',(req,res)=>{
+    const {order_id,product_id,quantity}=req.body;
+    const sql = `call productOrder_insert_procedure(${order_id},${product_id},${quantity})`
+    con.query(sql,(err,results)=>{
+        if(err){
+            throw err;
+        }
+        res.json(`Product created`)
     })
 })
 
 router.put('/update',(req,res)=>{
-    const {id,name,price,image,number,start_avg,category}=req.body
-    const sql = `UPDATE product 
-    SET product_name = "${name}", 
-    product_listed_price = ${price}, 
-    product_image ="${image}", 
-    product_number = ${number}, 
-    product_start_avg = ${start_avg}, 
-    product_category_id =${category}
-    WHERE product_id = ${id};`
+    const {order_id,product_id,quantity}=req.body;
+    const sql = `call productOrder_update_procedure(${order_id},${product_id},${quantity})`
     con.query(sql,(err,results)=>{
         if(err){
             throw err;
         }
-        res.json(`Product ${id} updated`)
+        res.json(`Product updated`)
     })
 })
+
 module.exports=router
