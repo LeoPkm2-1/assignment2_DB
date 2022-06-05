@@ -9,7 +9,7 @@ router.get('/get',(req,res)=>{
         if(err){
             throw err;
         }
-        res.json({'product':results});
+        res.json({'products':results});
     });
 });
 
