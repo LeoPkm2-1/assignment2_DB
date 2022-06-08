@@ -65,7 +65,7 @@ function Sidebar() {
         }}
         items={items}
       />
-      <Button ghost type='primary' className='sidebar-btn-logout'>Lou out</Button>
+      <Button ghost type='primary' className='sidebar-btn-logout'>Log out</Button>
     </StyledSidebar>
   )
 }
