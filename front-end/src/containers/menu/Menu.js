@@ -7,6 +7,9 @@ import { useGetAllProductsQuery } from '../../services/productApi';
 import { saveCategoryList, saveProductList } from '../../redux/slices/coffeehouseSlice';
 import { useGetCategoriesQuery } from '../../services/categoryApi';
 import Card from './../card/Card'
+import CardIcon from '../card-icon/CardIcon';
+
+import './style.css'
 
 // const { Meta } = Card
 const starList = [1, 2, 3, 4, 5];
@@ -24,43 +27,36 @@ function Menu({ categoryId = null }) {
   const { data: productListRes } = useGetAllProductsQuery();
   const { data: categoryListRes } = useGetCategoriesQuery();
 	const { productList, categoryList } = useSelector(state => state.coffeehouse);
-  
-	const [visible, setVisible] = useState(false);
-  const [star, setStar] = useState(0);
 
-  
-  const handleAddToCart = (product) => {
-    
-  }
-
-  const handleOk = () => {
-    setStar(0);
-    setVisible(false);
-  };
-  
-  const handleCancel = () => {
-    setStar(0);
-    setVisible(false);
-  };
+  const [productListTarget, setProductListTarget] =useState(productList)
 
   useEffect(() => {
     if(productListRes && categoryListRes) {
       dispatch(saveProductList(productListRes.products));
       dispatch(saveCategoryList(categoryListRes.categories));
     }
-  }, [productListRes, categoryListRes])
+  }, [productListRes, categoryListRes,categoryList,productList,productListTarget])
+
+  const chageProductList = (category_id)=>{
+    let rs = productList.filter(p=>p.product_category_id === category_id)
+    setProductListTarget(rs)
+  }
+
   return (
-    <StyledMenu>
+    <>
+    <div className="menu-container">
       {categoryList.map(c => (<>
-        <Divider orientation="left">{c.category_name.toUpperCase()}</Divider>
-        <Row gutter={16}>
-          {productList.map(p => p.product_category_id === c.category_id && (
-          <Col className='gutter-row' span={6}>
-            <Card name={p.product_name} price={p.product_listed_price}></Card>
-          </Col>))}
-        </Row>
+      <div onClick={()=>chageProductList(c.category_id)}>
+        <CardIcon name={c.category_name}></CardIcon>
+      </div>
       </>))}
-    </StyledMenu>
+    </div>
+    <div className='product-menu'>
+    {productListTarget.map(p => (
+      <Card name={p.product_name} price={p.product_listed_price}></Card>
+    ))}
+    </div>
+    </>
   )
 }
 
