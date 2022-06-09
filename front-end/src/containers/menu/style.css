@@ -1,0 +1,11 @@
+.menu-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin:20px 10%;
+    padding:0 20%;
+}
+
+.product-menu{
+    padding:10px 10%;
+}
