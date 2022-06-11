@@ -10,6 +10,7 @@ import Card from './../card/Card'
 import CardIcon from '../card-icon/CardIcon';
 
 import './style.css'
+import Header from '../header/Header';
 
 // const { Meta } = Card
 const starList = [1, 2, 3, 4, 5];
@@ -46,14 +47,14 @@ function Menu({ categoryId = null }) {
     <>
     <div className="menu-container">
       {categoryList.map(c => (<>
-      <div onClick={()=>chageProductList(c.category_id)}>
+      <div key={c.category_id} onClick={()=>chageProductList(c.category_id)}>
         <CardIcon name={c.category_name}></CardIcon>
       </div>
       </>))}
     </div>
     <div className='product-menu'>
     {productListTarget.map(p => (
-      <Card name={p.product_name} price={p.product_listed_price}></Card>
+      <Card key={p.product_id} name={p.product_name} price={p.product_listed_price}></Card>
     ))}
     </div>
     </>

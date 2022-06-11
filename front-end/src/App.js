@@ -3,8 +3,19 @@ import { Routes, Route } from 'react-router-dom';
 import Auth from './containers/auth/Auth';
 import Dashboard from './containers/container/Dashboard';
 import Client from './containers/container/Client';
+import { useDispatch } from 'react-redux';
+import { useGetAllProductsQuery } from './services/productApi';
+import { useEffect } from 'react';
+import { saveProductList } from './redux/slices/coffeehouseSlice';
 
 function App() {
+  const dispatch = useDispatch();
+  const { data: productListRes } = useGetAllProductsQuery();
+  useEffect(() => {
+    if(productListRes?.products) {
+      dispatch(saveProductList(productListRes.products))
+    }
+  }, [productListRes])
   return (
     <div className='App'>
       <Routes>
@@ -22,6 +33,7 @@ function App() {
 
 
         {/* client */}
+        <Route path='/order' element={<Client page='order'/>}/>
         <Route path='/cart/payment' element={<div>Trang thanh toán</div>}/>
         <Route path='/cart' element={<div>Giỏ hàng</div>}/>
         <Route path='/category/:categoryId/:productId' element={<Client page='menu'/>}/>

@@ -3,8 +3,9 @@ const con=require('../model/index');
 const router = express.Router();
 
 
-router.get('/get',(req,res)=>{
-    const sql='select * from productorder';
+router.get('/get/:order_id',(req,res)=>{
+    const order_id = req.params.order_id;
+    const sql=`select * from productorder where order_id = ${order_id}`;
     con.query(sql,(err,results)=>{
         if(err){
             throw err;

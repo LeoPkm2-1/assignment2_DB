@@ -9,7 +9,7 @@ const initialState = {
   productList: [],
   productItem: null,
   orderList: [],
-  orderItem: null,
+  orderItem: [],
 };
 
 const coffeehouseSlice = createSlice({
