@@ -28,6 +28,7 @@ function App() {
         <Route path='/coffeehouse/profile' element={<Dashboard page='menu'/>}/>
         <Route path='/coffeehouse/menu' index element={<Dashboard page='menu'/>}/>
         <Route path='/coffeehouse/product' index element={<Dashboard/>}/>
+        <Route path='/coffeehouse/order' index element={<Dashboard page='order'/>}/>
         <Route path='/coffeehouse/' index element={<Dashboard/>}/>
 
 

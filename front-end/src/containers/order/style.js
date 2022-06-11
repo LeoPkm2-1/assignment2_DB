@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const StyledOrder = styled.div`
   display: flex;
   justify-content: space-between;
+  flex: 1;
 `;
 
 export const StyledOrderList = styled.div`
@@ -13,7 +14,6 @@ export const StyledOrderList = styled.div`
 export const StyledProductOrderList = styled.div`
   flex: 0.4;
   padding: 8px;
-
 `
 
 export const StyledButton = styled.div`

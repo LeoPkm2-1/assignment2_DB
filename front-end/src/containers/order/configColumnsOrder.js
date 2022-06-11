@@ -7,7 +7,7 @@ export const columnsOrder = ({action1, action2}, giftCodeList) => ([
     title: 'Order date',
     dataIndex: 'order_date',
     key: 'order_id',
-    width: 200,
+    width: 150,
     render: (date) => <div>{moment(date).format('HH:MM DD-mm-yyyy')}</div>
   },
   {
@@ -25,7 +25,7 @@ export const columnsOrder = ({action1, action2}, giftCodeList) => ([
     title: 'Total money',
     dataIndex: 'order_total_money',
     key: 'order_id',
-    width: 80,
+    width: 120,
     render: (money) => <span>${money}</span>
   },
   {
