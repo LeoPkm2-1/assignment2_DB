@@ -1,1 +1,1 @@
-# A web application for assignment Database System course
+# A web application for Database System course assignment

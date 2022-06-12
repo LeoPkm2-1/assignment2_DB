@@ -1,0 +1,25 @@
+
+
+.card-icon{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width:90px;
+    cursor: pointer;
+}
+
+.card-icon .image img{
+    width:41px;
+    transform: translateX(50%);
+}
+
+.card-icon .image{
+    width:86px;
+    height:86px;
+    background-color: #fff7e1;
+    border-radius:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

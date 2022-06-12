@@ -5,9 +5,14 @@ export const productOrderApi = createApi({
   reducerPath: 'productOrderApi',
   baseQuery,
   endpoints: builder => ({
-    getProductOrders: builder.query({
+    getOrders: builder.query({
       query: () => ({
-        url: `/productorder/get`,
+        url: `/order/get`,
+      })
+    }),
+    getProductOrders: builder.query({
+      query: (payload) => ({
+        url: `/productorder/get/${payload.order_id}`,
       })
     }),
     deleteProductOrder: builder.mutation({
@@ -55,4 +60,5 @@ export const {
   useDeleteProductOrderMutation,
   useUpdateProductOrderMutation,
   useGetProductOrdersQuery,
+  useGetOrdersQuery,
 } = productOrderApi;
