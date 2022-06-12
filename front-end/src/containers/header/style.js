@@ -18,7 +18,6 @@ export const StyledHeader = styled.header`
     background-color: #eee;
     border-radius: 30px;
     overflow: hidden;
-    width: 500px;
 
     form {
       width: 100%;

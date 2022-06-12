@@ -7,7 +7,6 @@
 }
 
 img{
-    width:170px;
     cursor: pointer;
     margin-right: auto;
 }
@@ -16,7 +15,7 @@ li,a,button{
 
     font-weight:600;
     font-size: 14px;
-    color:#fff;
+    /* color:#fff; */
     text-decoration: none;
     line-height: 150%;
 }
@@ -24,9 +23,9 @@ li,a,button{
 .header{
     display: flex;
     background:radial-gradient(100% 501.4% at 0% 100%,#ffb141 0%,#fb8d17 100%);
-    justify-content:flex-end;
-    align-items:center;
-    padding:0px 10%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 30px;
     /* position: fixed; */
     width:100%;
     /* margin: 0 !important; */
@@ -41,7 +40,8 @@ li,a,button{
 
 .list li {
     display: inline-block;
-    padding:0px 20px
+    padding:0px 20px;
+    color: #eee;
 }
 
 .icon i{
@@ -51,4 +51,96 @@ li,a,button{
     color:#fff;
     text-align: center;
     margin-left: 10px;
+}
+
+
+.modal {
+    background-color: rgba(51, 51, 51, 0.473);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.modal-search {
+    margin: 150px auto;
+    padding: 24px;
+    width: 700px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #aaaa;
+}
+
+.modal-search-form {
+    border: 1px solid #aaaa;
+    width: 100%;
+    padding: 0 8px;
+    background-color: #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 30px;
+}
+
+.modal-search i {
+    font-size: 26px;
+    padding: 6px;
+    color: rgba(51, 51, 51, 0.308);
+    cursor: pointer;
+}
+
+.modal-search input {
+    flex: 1;
+    outline: none;
+    border: none;
+    background-color: none;
+    border-left: 1px solid #aaaa;
+    border-right: 1px solid #aaaa;
+    padding: 6px;
+}
+
+.modal-search-result {
+    padding: 12px;
+    padding-top: 36px;
+    margin-top: 16px;
+    background: #eee;
+    border-radius: 6px;
+}
+
+.filted-item {
+    width: 100%;
+    position: relative;
+    display: flex;
+    padding: 8px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.filted-item img {
+    width: 100px;
+    margin-right: 12px;
+}
+
+.filted-item div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.filted-item button {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffff;
+    background-color: #fb8d17;
+    border-radius: 50%;
+    border: 1px solid #aaaa;
+    cursor: pointer;
 }
