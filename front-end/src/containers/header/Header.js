@@ -76,7 +76,7 @@ function Header() {
                   <img src={fp.product_image} alt='' width={100} height={100}/>
                   <div>
                     <h4>{fp.product_name}</h4>
-                    <span>${fp.product_listed_price}</span>
+                    <span>{fp.product_listed_price}.000đ</span>
                   </div>
                   <button>+</button>
                 </div>

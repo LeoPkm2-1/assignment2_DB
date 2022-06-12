@@ -23,6 +23,14 @@ const styledMeta = {
   marginRight: 12,
 }
 
+const array_img =[
+  'https://minio.thecoffeehouse.com/image/tch-web-order/category-thumbnails/banh-snack.png',
+  'https://minio.thecoffeehouse.com/image/tch-web-order/category-thumbnails/ca-phe.png',
+  'https://minio.thecoffeehouse.com/image/tch-web-order/category-thumbnails/hi-tea.png',
+  'https://minio.thecoffeehouse.com/image/tch-web-order/category-thumbnails/tra-trai-cay-tra-sua.png',
+  'https://minio.thecoffeehouse.com/image/tch-web-order/category-thumbnails/da-xa.png'
+]
+
 function Menu({ categoryId = null }) {
   const dispatch = useDispatch();
   const { data: productListRes } = useGetAllProductsQuery();
@@ -46,15 +54,16 @@ function Menu({ categoryId = null }) {
   return (
     <>
     <div className="menu-container">
-      {categoryList.map(c => (<>
+      {categoryList.map((c,index) => (<>
+      {console.log(index)}
       <div key={c.category_id} onClick={()=>chageProductList(c.category_id)}>
-        <CardIcon name={c.category_name}></CardIcon>
+        <CardIcon name={c.category_name} img={array_img[index]}></CardIcon>
       </div>
       </>))}
     </div>
     <div className='product-menu'>
     {productListTarget.map(p => (
-      <Card key={p.product_id} name={p.product_name} price={p.product_listed_price}></Card>
+      <Card key={p.product_id} name={p.product_name} price={p.product_listed_price} img={p.product_image}></Card>
     ))}
     </div>
     </>
