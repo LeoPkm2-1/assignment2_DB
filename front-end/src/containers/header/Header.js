@@ -30,7 +30,7 @@ function Header() {
     const timeout = setTimeout(() => {
       const filter = searchInput ? productList.filter(p => p.product_name.includes(searchInput)) : [];
       setFiltedProduct(filter);
-    }, 500)
+    }, 0)
     return function () {
       clearTimeout(timeout);
     }
@@ -40,7 +40,7 @@ function Header() {
     <>
       <div className="header">
           <a href='../'>
-            <img src={logo} alt=""></img>
+            <img src={logo} alt="" style={{height:'150px'}}></img>
           </a>
           <ul className="list">
               <li>Đặt hàng</li>
