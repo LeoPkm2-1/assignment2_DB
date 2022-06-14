@@ -53,7 +53,7 @@ function Menu({ categoryId = null }) {
 
   return (
     <>
-    <div className="menu-container">
+    <div className="menu-container" style={{marginTop:'50px'}}>
       {categoryList.map((c,index) => (<>
       {console.log(index)}
       <div key={c.category_id} onClick={()=>chageProductList(c.category_id)}>
