@@ -235,11 +235,11 @@ values ('nyc', '111 centre st, new york, ny 10013, united states'),
 
 
 insert into category (category_name)
-values ('cake'),
-('tea'),
-('milk'),
-('cafe'),
-('ice cream');
+values ('Bánh-Snack'),
+('Cà Phê'),
+('Hi-Tea Healthy'),
+('Trà Trái Cây- Trà Sữa'),
+('Đá Xay - Choco');
 
 insert into `role` (role_name)
 values ('barista'),
@@ -269,13 +269,30 @@ INSERT INTO `employee` (`emp_id`, `emp_fullname`, `emp_address`, `emp_phone`, `e
 (11, 'van tran', 'kien truc tphcm', '0111423815', 'vui123@gmail.com', '2000-03-14', '131000.000', 'emp_password', 2, 4, 2);
 
 
-insert into product (product_name, product_listed_price, product_number, product_start_avg, product_category_id,product_image)
-values ('bacon, sausage & egg wrap',12.5,150,2,1,'https://www.fastfoodpost.com/wp-content/uploads/2020/03/starbucks-new-southwest-veggie-wrap-and-new-bacon-sausage-egg.jpg'),
-('bacon, gouda & egg sandwich',13.8,200,4,1,'https://i.dayj.com/image/720/food/1898448/starbucks-bacon-gouda-and-egg-sandwich-1-piece.png'),
-('cold brew coffee', 8.2, 1000, 3, 4,'https://www.thespruceeats.com/thmb/gcbhhltxned8jdm4zqdrsenkshi=/1885x1414/smart/filters:no_upscale()/coldbrewcoffeemicrogen-95e6ef2fc2c1411bbcf1cefe5e9e6879.jpg'),
-('chocolate cream cold brew', 10.2, 5000, 4.4, 4,'https://www.simplejoy.com/wp-content/uploads/2022/03/how-to-make-irish-cream-cold-brew-3-683x1024.jpg'),
-('matcha tea latte', 9.8, 3000, 4, 2,'https://ostomyconnection.com/.image/ar_16:9%2cc_fill%2ccs_srgb%2cfl_progressive%2cg_faces:center%2cq_auto:good%2cw_768/mtu1mze4odyymdywmda0ntqw/green-macha-tea.jpg'),
-('mango dragonfruit lemonade', 7.8, 500, 3.1, 2,'https://cookathomemom.com/wp-content/uploads/2021/04/mango-dragonfruit-lemonade.jpg');
+INSERT INTO `product` (`product_id`, `product_name`, `product_listed_price`, `product_image`, `product_number`, `product_start_avg`, `product_category_id`) VALUES
+(2, 'Cà Phê Sữa Đá', '29.000', 'https://minio.thecoffeehouse.com/image/admin/1639377738_ca-phe-sua-da_400x400.jpg', 199, '4.000', 4),
+(3, 'Trà Long Nhãn Hạt Sen', '51.000', 'https://minio.thecoffeehouse.com/image/admin/1649378747_tra-sen-nhan_400x400.jpg', 1000, '3.000', 2),
+(4, 'Trà Đảo Cam Sả - Đá', '45.000', 'https://minio.thecoffeehouse.com/image/admin/tra-dao-cam-xa_668678_400x400.jpg', 5000, '4.400', 2),
+(5, 'Trà Đào Cam Sả- Nóng', '51.000', 'https://minio.thecoffeehouse.com/image/admin/tdcs-nong_288997_400x400.jpg', 3000, '4.000', 2),
+(6, 'Trà Hạt Sen - Đá', '45.000', 'https://minio.thecoffeehouse.com/image/admin/tdcs-nong_288997_400x400.jpg', 500, '3.100', 2),
+(8, 'Cà Phê Sữa Nóng', '35.000', 'https://minio.thecoffeehouse.com/image/admin/1639377770_cfsua-nong_400x400.jpg', 199, '4.000', 4),
+(9, 'Bạc Sỉu', '29.000', 'https://minio.thecoffeehouse.com/image/admin/1639377904_bac-siu_400x400.jpg', 199, '4.000', 4),
+(10, 'Bạc Sỉu Nóng', '35.000', 'https://minio.thecoffeehouse.com/image/admin/1639377926_bacsiunong_400x400.jpg', 199, '4.000', 4),
+(11, 'Cà Phê Đen Đá', '29.000', 'https://minio.thecoffeehouse.com/image/admin/1639377798_ca-phe-den-da_400x400.jpg', 199, '4.000', 4),
+(12, 'Cà Phê Đen Nóng', '35.000', 'https://minio.thecoffeehouse.com/image/admin/1639377816_ca-phe-den-nong_400x400.jpg', 199, '4.000', 4),
+(13, 'Trà Hạt Sen - Nóng', '51.000', 'https://minio.thecoffeehouse.com/image/admin/tra-sen-nong_025153_400x400.jpg', 500, '3.100', 2),
+(14, 'Trà Đen Macchiato', '49.000', 'https://minio.thecoffeehouse.com/image/admin/tra-den-matchiato_430281_400x400.jpg', 500, '3.100', 2),
+(15, 'Hi-Tea Dâu Tây Mận', '49.000', 'https://minio.thecoffeehouse.com/image/admin/1653274559_dau-tay-man-muoi-aloe-vera_400x400.jpg', 500, '3.100', 3),
+(16, 'Hi-Tea Xoài', '45.000', 'https://minio.thecoffeehouse.com/image/admin/1653275101_xoai-aloe-vera_400x400.jpg', 500, '3.100', 3),
+(17, 'Hi-Tea Đào', '45.000', 'https://minio.thecoffeehouse.com/image/admin/1653291185_hi-tea-dao_400x400.jpg', 500, '3.100', 3),
+(18, 'Hi-Tea Đá Tuyết Mận', '59.000', 'https://minio.thecoffeehouse.com/image/admin/1653275302_sb-man-muoi-aloevra_400x400.jpg', 500, '3.100', 3),
+(19, 'Chocolate Đá', '59.000', 'https://minio.thecoffeehouse.com/image/admin/chocolate-da_877186_400x400.jpg', 500, '3.100', 5),
+(20, 'Chocolate Nóng', '59.000', 'https://minio.thecoffeehouse.com/image/admin/chocolatenong_949029_400x400.jpg', 500, '3.100', 5),
+(21, 'Bánh Mỳ Que Pate', '12.000', 'https://minio.thecoffeehouse.com/image/admin/banhmique_056830_400x400.jpg', 500, '3.100', 1),
+(22, 'Bánh Mỳ Việt Nam Thịt Nguội', '29.000', 'https://minio.thecoffeehouse.com/image/admin/1638440015_banh-mi-vietnam_400x400.jpg', 500, '3.100', 1),
+(23, 'Croissant Trứng Muối', '35.000', 'https://minio.thecoffeehouse.com/image/admin/croissant-trung-muoi_880850_400x400.jpg', 500, '3.100', 1),
+(24, 'Chà Bông Phô Mai', '35.000', 'https://minio.thecoffeehouse.com/image/admin/cha-bong-pho-mai_204282_400x400.jpg', 500, '3.100', 1),
+(25, 'Mochi Kem', '19.000', 'https://minio.thecoffeehouse.com/image/admin/1643102019_mochi-phucbontu_400x400.jpg', 500, '3.100', 1);
 
 insert into giftcode(gift_code,gift_startdate,gift_expiredate,gift_value)
 values ('NoneGift','2001-01-01 00:00:00','2221-01-01 00:00:01',0.0),

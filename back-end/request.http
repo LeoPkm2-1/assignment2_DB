@@ -1,0 +1,30 @@
+# POST http://localhost:5000/api/productorder/post
+# Content-Type: application/json
+
+# {
+#     "order_id":1,
+#     "product_id":5,
+#     "quantity":3
+# }
+
+# GET http://localhost:5000/api/productorder/get
+
+# DELETE http://localhost:5000/api/productorder/delete
+# Content-Type: application/json
+
+# {
+#     "order_id":1,
+#     "product_id":5
+# }
+
+GET http://localhost:5000/api/product/get
+
+###
+
+GET http://localhost:5000/api/category/get
+
+###
+GET http://localhost:5000/api/productwithcategory/get
+
+###
+GET http://localhost:5000/api/order/get

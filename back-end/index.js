@@ -1,4 +1,5 @@
 const express =require('express');
+const cors = require('cors');
 
 const categoryRouter=require('./route/category');
 const productRouter=require('./route/product');
@@ -9,7 +10,7 @@ const app =express();
 app.use(express.json())
 const port =5000;
 
-
+app.use(cors());
 
 app.use('/api/category',categoryRouter);
 app.use('/api/product',productRouter);

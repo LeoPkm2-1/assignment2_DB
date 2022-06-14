@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 router.get('/get',(req,res)=>{
-    const sql='select order_id,order_address from order_';
+    const sql='select * from order_';
     con.query(sql,(err,results)=>{
         if(err){
             throw err;
