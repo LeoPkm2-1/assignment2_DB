@@ -117,7 +117,7 @@ drop table if exists rating;
 create table rating (
   customer_id int(6) unsigned not null,
   product_id int(6) unsigned not null,
-  star decimal(3,3) not null default 0.000
+  star decimal(4,3) not null default 0.000
 );
 
 -- table role
@@ -313,6 +313,10 @@ values (1, 4, 100.5),
 (2, 3,80.2 ),
 (3, 2,25.7 ),
 (4, 1,15.2 );
+
+insert into rating values(1,2,3.4);
+insert into rating values(2,6,4);
+insert into rating values(3,4,1.5);
 
 
 -- INSERT INTO order_ (order_id, order_date, order_address, order_total_money, order_status, order_emp_id, order_customer_id, order_code) VALUES
