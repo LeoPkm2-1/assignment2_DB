@@ -228,31 +228,34 @@ delimiter ;
 
 drop procedure if exists select_product_with_category_procedure;
 delimiter //
-create procedure select_product_with_category_procedure()
+create procedure select_product_with_category_procedure(
+    in cate varchar(50)
+)
     begin 
         select product_name,category_name
         from product
         inner join category on product.product_category_id = category.category_id
+        where category_name=cate
         order by product_listed_price DESC ;
     end //
 delimiter ;
 
 
--- drop procedure if exists select_procedure;
--- delimiter //
--- create procedure select_procedure()
---     begin 
---         select product_name,product_id,product_start_avg,product_category_id,category_name
---         from product 
---         inner join category on product.product_category_id = category.category_id
---         where (product_start_avg,product_category_id) in
---         (
---             select max(product_start_avg),product_category_id
---             from product 
+drop procedure if exists select_procedure;
+delimiter //
+create procedure select_procedure()
+    begin 
+        select product_name,product_id,product_start_avg,product_category_id,category_name
+        from product 
+        inner join category on product.product_category_id = category.category_id
+        where (product_start_avg,product_category_id) in
+        (
+            select max(product_start_avg),product_category_id
+            from product 
             
---         --     where p1.product_id = p2.product_id
---             group by product_category_id
---         -- having product_start_avg=max(product_start_avg)
---         )
---     end //
--- delimiter ;
+        --     where p1.product_id = p2.product_id
+            group by product_category_id
+        -- having product_start_avg=max(product_start_avg)
+        )
+    end //
+delimiter ;
